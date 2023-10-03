@@ -1,0 +1,55 @@
+.RoomItem {
+  width: 100%;
+
+  padding: calc(var(--block-padding) / 2);
+
+  border-radius: var(--block-roundness);
+
+  display: grid;
+  grid-template-areas:
+    "image nametext"
+    "image message";
+  align-items: center;
+  justify-content: flex-start;
+  row-gap: calc(var(--block-padding) / 4);
+  column-gap: calc(var(--block-padding) / 2);
+
+  background-color: RGB(var(--primary-color), 0.1);
+
+  cursor: pointer;
+}
+
+.RoomItem:hover {
+  background-color: RGB(var(--primary-color), 0.2);
+}
+
+.RoomItem:active {
+  background-color: RGB(var(--primary-color), 0.3);
+}
+
+.Name {
+  font-size: var(--font-size-m);
+  font-weight: 600;
+
+  grid-area: nametext;
+}
+
+.Message {
+  font-size: var(--font-size-s);
+
+  grid-area: message;
+}
+
+.ImageIcon {
+  grid-area: image;
+}
+
+.ImageIcon svg * {
+  fill: RGB(var(--primary-color), 1);
+}
+
+.Active {
+  box-shadow: 0px 2px 0px 0px RGB(var(--accent-color));
+
+  background-color: RGB(var(--primary-color), 0.3);
+}

@@ -1,0 +1,18 @@
+.Layout {
+  height: 100%;
+
+  font-family: "Inter", sans-serif;
+}
+
+.Content {
+  height: 100%;
+  width: 100%;
+
+  padding: var(--block-padding);
+
+  display: grid;
+  grid-template-columns: minmax(250px, 300px) 1fr;
+  grid-template-rows: 1fr;
+
+  gap: var(--block-padding);
+}

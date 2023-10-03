@@ -1,0 +1,13 @@
+.Rooms {
+  padding: var(--block-padding);
+
+  border-radius: var(--block-roundness);
+
+  background-color: RGB(var(--primary-color), 0.1);
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  gap: calc(var(--block-padding) / 2);
+}

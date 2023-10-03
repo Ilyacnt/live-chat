@@ -1,0 +1,13 @@
+.Header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: var(--block-padding);
+
+  background-color: RGB(var(--primary-color), 0.1);
+}
+
+.Logo {
+  font-weight: 600;
+}

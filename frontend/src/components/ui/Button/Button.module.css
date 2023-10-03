@@ -1,0 +1,22 @@
+.Button {
+  width: fit-content;
+  font: inherit;
+
+  color: RGB(var(--background-color));
+  background-color: RGB(var(--primary-color));
+
+  border: none;
+  border-radius: var(--block-roundness);
+
+  padding: calc(var(--block-padding) / 4) var(--block-padding);
+
+  cursor: pointer;
+}
+
+.Button:hover {
+  background-color: RGB(var(--primary-color), 0.9);
+}
+
+.Button:active {
+  background-color: RGB(var(--primary-color), 0.8);
+}
