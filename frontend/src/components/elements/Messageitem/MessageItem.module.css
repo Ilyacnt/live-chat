@@ -3,6 +3,8 @@
   width: fit-content;
   max-width: 80%;
 
+  overflow-wrap: break-word;
+
   padding: calc(var(--block-padding) / 2) var(--block-padding);
 
   border-radius: var(--block-roundness);
@@ -12,12 +14,14 @@
 
 .MessageMy {
   width: 100%;
+  min-width: 100%;
   display: flex;
   justify-content: flex-end;
 }
 
 .MessageOther {
   width: 100%;
+  min-width: 100%;
   display: flex;
   justify-content: flex-start;
 }

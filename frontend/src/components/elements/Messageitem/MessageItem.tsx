@@ -1,8 +1,8 @@
 import styles from "./MessageItem.module.css";
-import React, { InputHTMLAttributes } from "react";
+import React, { InputHTMLAttributes, ReactElement } from "react";
 
 interface MessageItemProps extends InputHTMLAttributes<HTMLDivElement> {
-  children: string;
+  children: ReactElement | string;
   fromMySide?: boolean;
 }
 

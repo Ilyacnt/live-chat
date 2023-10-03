@@ -12,6 +12,7 @@
 
 .MessageArea {
   height: 100%;
+  max-height: 78vh;
   width: 100%;
 
   display: flex;
@@ -20,4 +21,6 @@
 
   gap: calc(var(--block-padding) / 1.5);
   margin-bottom: var(--block-padding);
+
+  overflow-y: auto;
 }

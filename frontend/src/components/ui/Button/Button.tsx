@@ -1,8 +1,8 @@
-import { InputHTMLAttributes, ReactElement } from "react";
+import { ButtonHTMLAttributes, ReactElement } from "react";
 import cn from "classnames";
 import styles from "./Button.module.css";
 
-interface ButtonProps extends InputHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactElement | string;
 }
 
