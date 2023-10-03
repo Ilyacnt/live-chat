@@ -9,3 +9,15 @@
 
   background-color: RGB(var(--primary-color), 0.1);
 }
+
+.MessageArea {
+  height: 100%;
+  width: 100%;
+
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+
+  gap: calc(var(--block-padding) / 1.5);
+  margin-bottom: var(--block-padding);
+}
