@@ -26,13 +26,13 @@ const RoomItem: React.FC<RoomItemProps> = ({ isActive = false, user }) => {
       <div className={styles.ImageIcon}>
         <PersonCircleSVG />
       </div>
-      <span className={styles.Name}>{user.userId}</span>
-      <span className={styles.Message}>
+      <div className={styles.Name}>{user.userId}</div>
+      <div className={styles.Message}>
         {(Array.isArray(user.messages) &&
           user.messages.length > 0 &&
           user.messages[user.messages.length - 1].text) ||
           "No messages yet"}
-      </span>
+      </div>
     </div>
   );
 };

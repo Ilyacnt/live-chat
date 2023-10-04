@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { IUserState } from "../user/userSlice";
 import { MessageTypes } from "../../types/MessageTypes";
+import { store } from "../store";
 
 export interface IUserMessage {
   user: IUserState;
@@ -48,14 +49,15 @@ export const chatSlice = createSlice({
     },
     addMessage: (state, action: PayloadAction<IUserMessage>) => {
       state.users.forEach((user) => {
-        const usersToChange = state.users.filter(
-          (userInState) => userInState.userId === user.userId
-        );
-
-        usersToChange.forEach((user) => {
+        if (
+          action.payload.user.userId === user.userId ||
+          action.payload.receivers.includes(user.userId)
+        ) {
           user.messages.push(action.payload);
-        });
+        }
       });
+
+      state.currentUserChat = { ...state.currentUserChat };
     },
   },
 });

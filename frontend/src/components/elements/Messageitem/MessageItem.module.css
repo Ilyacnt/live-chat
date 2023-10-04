@@ -1,4 +1,6 @@
 .MessageItem {
+  position: relative;
+
   font-size: var(--font-size-m);
   width: fit-content;
   max-width: 80%;
@@ -6,6 +8,7 @@
   overflow-wrap: break-word;
 
   padding: calc(var(--block-padding) / 2) var(--block-padding);
+  padding-right: calc(var(--block-padding) * 3.1);
 
   border-radius: var(--block-roundness);
 
@@ -28,4 +31,14 @@
 
 .MessageOther .MessageItem {
   background-color: RGB(var(--primary-color), 0.2);
+}
+
+.Timestamp {
+  position: absolute;
+  right: 14px;
+  bottom: 7px;
+
+  color: RGB(var(--primary-color), 0.4);
+
+  font-size: calc(var(--font-size-s) / 1.3);
 }

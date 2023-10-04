@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import MessageItem from "../../elements/Messageitem/MessageItem";
 import MessageInput from "../../ui/MessageInput/MessageInput";
 import styles from "./Chat.module.css";
@@ -15,9 +15,8 @@ const Chat = () => {
   const socketRef = useRef<WebSocket | null>(null);
 
   const currentUser = useAppSelector((state) => state.user);
-  const currentUserChat = useAppSelector((state) => state.chat.currentUserChat);
-  const messages = useAppSelector(
-    (state) => state.chat.currentUserChat.messages
+  const { userId, messages } = useAppSelector(
+    (state) => state.chat.currentUserChat
   );
 
   const dispatch = useAppDispatch();
@@ -32,7 +31,7 @@ const Chat = () => {
       type: MessageTypes.MESSAGE_SEND,
       text: message,
       timestamp: Date.now(),
-      receivers: [currentUserChat.userId],
+      receivers: [userId],
     };
 
     socketRef.current?.send(JSON.stringify(newMessage));
@@ -61,7 +60,7 @@ const Chat = () => {
       if (data.type === MessageTypes.USER_SET) {
         dispatch(setUser({ userId: data.userId }));
       } else if (data.type === MessageTypes.MESSAGE_SEND) {
-        console.log("MESSAGE RECIEVED");
+        console.log(data);
 
         dispatch(addMessage(data));
       } else if (data.type === MessageTypes.USERS_GET) {
@@ -89,6 +88,7 @@ const Chat = () => {
           messages.map((message) => (
             <MessageItem
               key={message.timestamp}
+              timestamp={message.timestamp}
               fromMySide={isFromMySide(message)}
             >
               {message.text as string}
