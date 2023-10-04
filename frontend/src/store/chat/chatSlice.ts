@@ -55,7 +55,7 @@ export const chatSlice = createSlice({
       state.users.push(action.payload);
     },
     addUsers: (state, action: PayloadAction<IUser[]>) => {
-      state.users.push(...action.payload);
+      state.users = action.payload;
     },
     setCurrentUserChat: (state, action: PayloadAction<IUser>) => {
       state.currentUserChat = action.payload;

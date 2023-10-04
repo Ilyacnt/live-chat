@@ -12,8 +12,21 @@ export class SocketController {
   private listenConnection(): void {
     this.webSocketServer.on("connection", (ws: WebSocket & { clientId?: string }) => {
       ws.clientId = uuid()
-      ws.send(ws.clientId)
+      ws.send(
+        JSON.stringify({
+          type: MessageTypes.USER_SET,
+          userId: ws.clientId,
+        })
+      )
       ws.on("message", this.messageHandler.bind(this))
+
+      this.webSocketServer.clients.forEach((client: WebSocket & { clientId?: string }) => {
+        client.clientId &&
+          this.getUsers({
+            type: MessageTypes.USERS_GET,
+            user: { userId: client.clientId },
+          } as GetUsersWSMessageDTO)
+      })
     })
   }
 
@@ -28,6 +41,7 @@ export class SocketController {
             break
           case MessageTypes.USERS_GET:
             this.getUsers(message as GetUsersWSMessageDTO)
+            break
         }
       }
     } catch (error: unknown) {
@@ -48,13 +62,16 @@ export class SocketController {
   private getUsers(message: GetUsersWSMessageDTO): void {
     this.webSocketServer.clients.forEach((client: WebSocket & { clientId?: string }) => {
       if (client.clientId === message.user.userId) {
-        let userIds = Array.from(this.webSocketServer.clients).map(
-          (client: WebSocket & { clientId?: string }) => client.clientId
-        )
-        client.send(JSON.stringify(userIds))
+        let userIds = Array.from(this.webSocketServer.clients)
+          .filter(
+            (client: WebSocket & { clientId?: string }) => client.clientId !== message.user.userId
+          )
+          .map((client: WebSocket & { clientId?: string }) => ({
+            userId: client.clientId,
+          }))
+
+        client.send(JSON.stringify({ type: MessageTypes.USERS_GET, userIds }))
       }
     })
   }
-
-  //   private onMessageSend(ws: WebSocket & { clientId?: string }, message: SendMessageWSMessageDTO) {}
 }

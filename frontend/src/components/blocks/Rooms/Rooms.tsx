@@ -1,5 +1,6 @@
+import { useEffect } from "react";
 import { IUser } from "../../../store/chat/chatSlice";
-import { useAppSelector } from "../../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import RoomItem from "../../elements/RoomItem/RoomItem";
 import styles from "./Rooms.module.css";
 
