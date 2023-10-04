@@ -1,6 +1,6 @@
 import WebSocket, { Server as WebSocketServer } from "ws"
 import { v4 as uuid } from "uuid"
-import { SendMessageWSMessageDTO } from "../dto/WSMessageDTO"
+import { GetUsersWSMessageDTO, SendMessageWSMessageDTO } from "../dto/WSMessageDTO"
 import { isWSMessageDTO } from "../gurads/isWSMessageDTO"
 import { MessageTypes } from "../types/MessageTypes"
 
@@ -26,6 +26,8 @@ export class SocketController {
           case MessageTypes.MESSAGE_SEND:
             this.sendMessage(message as SendMessageWSMessageDTO)
             break
+          case MessageTypes.USERS_GET:
+            this.getUsers(message as GetUsersWSMessageDTO)
         }
       }
     } catch (error: unknown) {
@@ -39,6 +41,17 @@ export class SocketController {
     this.webSocketServer.clients.forEach((client: WebSocket & { clientId?: string }) => {
       if (client.clientId && message.receivers.includes(client.clientId)) {
         client.send(JSON.stringify(message))
+      }
+    })
+  }
+
+  private getUsers(message: GetUsersWSMessageDTO): void {
+    this.webSocketServer.clients.forEach((client: WebSocket & { clientId?: string }) => {
+      if (client.clientId === message.user.userId) {
+        let userIds = Array.from(this.webSocketServer.clients).map(
+          (client: WebSocket & { clientId?: string }) => client.clientId
+        )
+        client.send(JSON.stringify(userIds))
       }
     })
   }

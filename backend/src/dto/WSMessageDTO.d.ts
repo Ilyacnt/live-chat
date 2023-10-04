@@ -16,3 +16,7 @@ export interface SendMessageWSMessageDTO extends WSMessageDTO {
   timestamp: number
   receivers: UserDTO["userId"][]
 }
+
+export interface GetUsersWSMessageDTO extends WSMessageDTO {
+  type: MessageTypes.USERS_GET
+}
