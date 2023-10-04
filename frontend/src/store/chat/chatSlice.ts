@@ -3,7 +3,8 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { IUserState } from "../user/userSlice";
 import { MessageTypes } from "../../types/MessageTypes";
 
-interface IUserMessage {
+export interface IUserMessage {
+  user: IUserState;
   type: MessageTypes.MESSAGE_SEND;
   text: string;
   timestamp: number;
@@ -20,31 +21,11 @@ interface IChatState {
 }
 
 const initialState: IChatState = {
-  users: [
-    {
-      userId: "fi3u12rihfd12",
-      messages: [
-        {
-          type: MessageTypes.MESSAGE_SEND,
-          text: "Hello",
-          timestamp: 121,
-          receivers: ["fi3u12rihfd12"],
-        },
-      ],
-    },
-    {
-      userId: "hgdssggfds",
-      messages: [
-        {
-          type: MessageTypes.MESSAGE_SEND,
-          text: "test",
-          timestamp: 121,
-          receivers: ["fi3u12rihfd12"],
-        },
-      ],
-    },
-  ],
-  currentUserChat: {} as IUser,
+  users: [],
+  currentUserChat: {
+    userId: "",
+    messages: [],
+  } as IUser,
 };
 
 export const chatSlice = createSlice({
@@ -55,16 +36,25 @@ export const chatSlice = createSlice({
       state.users.push(action.payload);
     },
     addUsers: (state, action: PayloadAction<IUser[]>) => {
-      state.users = action.payload;
+      const data = action.payload.map((user) => ({
+        userId: user.userId,
+        messages: [],
+      }));
+
+      state.users = data;
     },
     setCurrentUserChat: (state, action: PayloadAction<IUser>) => {
       state.currentUserChat = action.payload;
     },
     addMessage: (state, action: PayloadAction<IUserMessage>) => {
       state.users.forEach((user) => {
-        if (action.payload.receivers.includes(user.userId)) {
-          user.messages.push();
-        }
+        const usersToChange = state.users.filter(
+          (userInState) => userInState.userId === user.userId
+        );
+
+        usersToChange.forEach((user) => {
+          user.messages.push(action.payload);
+        });
       });
     },
   },

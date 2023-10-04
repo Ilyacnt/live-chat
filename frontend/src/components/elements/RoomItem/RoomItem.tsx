@@ -28,7 +28,9 @@ const RoomItem: React.FC<RoomItemProps> = ({ isActive = false, user }) => {
       </div>
       <span className={styles.Name}>{user.userId}</span>
       <span className={styles.Message}>
-        {(Array.isArray(user.messages) && user.messages[0].text) ||
+        {(Array.isArray(user.messages) &&
+          user.messages.length > 0 &&
+          user.messages[user.messages.length - 1].text) ||
           "No messages yet"}
       </span>
     </div>

@@ -1,29 +1,49 @@
-import { useEffect, useRef, useState } from "react";
-import { IMessageItem } from "../../../types/MessageItem";
+import { useEffect, useRef } from "react";
 import MessageItem from "../../elements/Messageitem/MessageItem";
 import MessageInput from "../../ui/MessageInput/MessageInput";
 import styles from "./Chat.module.css";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { setUser } from "../../../store/user/userSlice";
 import { MessageTypes } from "../../../types/MessageTypes";
-import { addMessage, addUsers } from "../../../store/chat/chatSlice";
+import {
+  IUserMessage,
+  addMessage,
+  addUsers,
+} from "../../../store/chat/chatSlice";
 
 const Chat = () => {
-  const [messages, setMessages] = useState<
-    Pick<IMessageItem, "id" | "text" | "fromMySide">[]
-  >([{ id: 1, text: "Hello", fromMySide: false }]);
   const socketRef = useRef<WebSocket | null>(null);
 
   const currentUser = useAppSelector((state) => state.user);
+  const currentUserChat = useAppSelector((state) => state.chat.currentUserChat);
+  const messages = useAppSelector(
+    (state) => state.chat.currentUserChat.messages
+  );
+
   const dispatch = useAppDispatch();
 
   const onMessageSendHandle = (message: string) => {
     if (!message) return;
-    console.log(message);
-    setMessages([
-      ...messages,
-      { id: Date.now(), text: message, fromMySide: true },
-    ]);
+
+    const newMessage: IUserMessage = {
+      user: {
+        userId: currentUser.userId,
+      },
+      type: MessageTypes.MESSAGE_SEND,
+      text: message,
+      timestamp: Date.now(),
+      receivers: [currentUserChat.userId],
+    };
+
+    socketRef.current?.send(JSON.stringify(newMessage));
+
+    dispatch(addMessage(newMessage));
+  };
+
+  const isFromMySide = (
+    message: IUserMessage & { user: { userId: string } }
+  ) => {
+    return message.user.userId === currentUser.userId;
   };
 
   useEffect(() => {
@@ -41,11 +61,16 @@ const Chat = () => {
       if (data.type === MessageTypes.USER_SET) {
         dispatch(setUser({ userId: data.userId }));
       } else if (data.type === MessageTypes.MESSAGE_SEND) {
+        console.log("MESSAGE RECIEVED");
+
         dispatch(addMessage(data));
       } else if (data.type === MessageTypes.USERS_GET) {
-        console.log(data);
         dispatch(addUsers(data.userIds));
       }
+    };
+
+    return () => {
+      socketRef.current?.close();
     };
   }, []);
 
@@ -60,11 +85,15 @@ const Chat = () => {
   return (
     <div className={styles.Chat}>
       <div className={styles.MessageArea}>
-        {messages.map((message) => (
-          <MessageItem key={message.id} fromMySide={message.fromMySide}>
-            {message.text as string}
-          </MessageItem>
-        ))}
+        {messages &&
+          messages.map((message) => (
+            <MessageItem
+              key={message.timestamp}
+              fromMySide={isFromMySide(message)}
+            >
+              {message.text as string}
+            </MessageItem>
+          ))}
       </div>
       <MessageInput onMessageSend={onMessageSendHandle} />
     </div>

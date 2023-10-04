@@ -28,6 +28,18 @@ export class SocketController {
           } as GetUsersWSMessageDTO)
       })
     })
+
+    this.webSocketServer.on("close", (ws: WebSocket & { clientId?: string }) => {
+      console.log("CLOSE")
+
+      this.webSocketServer.clients.forEach((client: WebSocket & { clientId?: string }) => {
+        client.clientId &&
+          this.getUsers({
+            type: MessageTypes.USERS_GET,
+            user: { userId: client.clientId },
+          } as GetUsersWSMessageDTO)
+      })
+    })
   }
 
   private messageHandler(messageRaw: unknown): void {
@@ -46,7 +58,7 @@ export class SocketController {
       }
     } catch (error: unknown) {
       if (error instanceof Error) {
-        console.log(error.message)
+        console.error(error)
       }
     }
   }
