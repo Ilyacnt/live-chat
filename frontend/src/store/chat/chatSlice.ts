@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { IUserState } from "../user/userSlice";
 import { MessageTypes } from "../../types/MessageTypes";
-import { store } from "../store";
 
 export interface IUserMessage {
   user: IUserState;

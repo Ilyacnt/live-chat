@@ -83,19 +83,27 @@ const Chat = () => {
 
   return (
     <div className={styles.Chat}>
-      <div className={styles.MessageArea}>
-        {messages &&
-          messages.map((message) => (
-            <MessageItem
-              key={message.timestamp}
-              timestamp={message.timestamp}
-              fromMySide={isFromMySide(message)}
-            >
-              {message.text as string}
-            </MessageItem>
-          ))}
-      </div>
-      <MessageInput onMessageSend={onMessageSendHandle} />
+      {userId ? (
+        <>
+          <div className={styles.MessageArea}>
+            {messages &&
+              messages.map((message) => (
+                <MessageItem
+                  key={message.timestamp}
+                  timestamp={message.timestamp}
+                  fromMySide={isFromMySide(message)}
+                >
+                  {message.text as string}
+                </MessageItem>
+              ))}
+          </div>
+          <MessageInput onMessageSend={onMessageSendHandle} />
+        </>
+      ) : (
+        <div className={styles.NothingSelected}>
+          <span>Select a chat from left panel</span>
+        </div>
+      )}
     </div>
   );
 };
