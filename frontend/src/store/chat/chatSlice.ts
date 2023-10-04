@@ -57,6 +57,13 @@ export const chatSlice = createSlice({
         }
       });
 
+      if (
+        action.payload.user.userId === state.currentUserChat.userId ||
+        action.payload.receivers.includes(state.currentUserChat.userId)
+      ) {
+        state.currentUserChat.messages.push(action.payload);
+      }
+
       state.currentUserChat = { ...state.currentUserChat };
     },
   },
