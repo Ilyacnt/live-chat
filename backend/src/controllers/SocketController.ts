@@ -12,7 +12,7 @@ export class SocketController {
   private listenConnection(): void {
     this.webSocketServer.on("connection", (ws: WebSocket & { clientId?: string }) => {
       ws.clientId = uuid()
-      ws.send(`Your clientId is ${ws.clientId}`)
+      ws.send(ws.clientId)
       ws.on("message", this.messageHandler.bind(this))
     })
   }

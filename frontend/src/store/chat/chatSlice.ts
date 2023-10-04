@@ -10,7 +10,7 @@ interface IUserMessage {
   receivers: IUserState["userId"][];
 }
 
-interface IUser extends IUserState {
+export interface IUser extends IUserState {
   messages: IUserMessage[];
 }
 
@@ -20,7 +20,30 @@ interface IChatState {
 }
 
 const initialState: IChatState = {
-  users: [],
+  users: [
+    {
+      userId: "fi3u12rihfd12",
+      messages: [
+        {
+          type: MessageTypes.MESSAGE_SEND,
+          text: "Hello",
+          timestamp: 121,
+          receivers: ["fi3u12rihfd12"],
+        },
+      ],
+    },
+    {
+      userId: "hgdssggfds",
+      messages: [
+        {
+          type: MessageTypes.MESSAGE_SEND,
+          text: "test",
+          timestamp: 121,
+          receivers: ["fi3u12rihfd12"],
+        },
+      ],
+    },
+  ],
   currentUserChat: {} as IUser,
 };
 
