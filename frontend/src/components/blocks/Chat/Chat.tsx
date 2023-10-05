@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import MessageItem from "../../elements/Messageitem/MessageItem";
 import MessageInput from "../../ui/MessageInput/MessageInput";
 import styles from "./Chat.module.css";

@@ -27,17 +27,15 @@ export class SocketController {
             user: { userId: client.clientId },
           } as GetUsersWSMessageDTO)
       })
-    })
 
-    this.webSocketServer.on("close", (ws: WebSocket & { clientId?: string }) => {
-      console.log("CLOSE")
-
-      this.webSocketServer.clients.forEach((client: WebSocket & { clientId?: string }) => {
-        client.clientId &&
-          this.getUsers({
-            type: MessageTypes.USERS_GET,
-            user: { userId: client.clientId },
-          } as GetUsersWSMessageDTO)
+      ws.on("close", () => {
+        this.webSocketServer.clients.forEach((client: WebSocket & { clientId?: string }) => {
+          client.clientId &&
+            this.getUsers({
+              type: MessageTypes.USERS_GET,
+              user: { userId: client.clientId },
+            } as GetUsersWSMessageDTO)
+        })
       })
     })
   }

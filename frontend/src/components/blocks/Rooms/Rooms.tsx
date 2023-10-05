@@ -13,14 +13,20 @@ const Rooms = () => {
 
   return (
     <div className={styles.Rooms}>
-      {usersRooms &&
+      {usersRooms.length > 0 ? (
+        usersRooms.length > 0 &&
         usersRooms.map((room) => (
           <RoomItem
             key={room.userId}
             user={room}
             isActive={isActiveUser(room)}
           />
-        ))}
+        ))
+      ) : (
+        <div className={styles.NoUsers}>
+          <span>There is no users yet</span>
+        </div>
+      )}
     </div>
   );
 };
