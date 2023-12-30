@@ -4,7 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "npx nodemon"
+    "start": "npx nodemon",
+    "serve": "ts-node ./src/server.ts"
   },
   "keywords": [],
   "author": "",
@@ -19,7 +20,7 @@
     "@types/node": "^20.8.2",
     "@types/ws": "^7.4.7",
     "nodemon": "^3.0.1",
-    "ts-node": "^10.9.1",
+    "ts-node": "^10.9.2",
     "typescript": "^5.2.2"
   }
 }
