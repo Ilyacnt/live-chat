@@ -46,7 +46,7 @@ const Chat = () => {
   };
 
   useEffect(() => {
-    socketRef.current = new WebSocket("ws://localhost:8999/");
+    socketRef.current = new WebSocket(import.meta.env.VITE_WS_SERVER);
 
     if (!socketRef.current) return;
 
